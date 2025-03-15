@@ -1,0 +1,128 @@
+(defwindow topbar2
+           :monitor 0
+           :geometry (geometry :x "0"
+                               :y "0"
+                               :width "100%"
+                               :height "30px"
+                               :anchor "top center")
+           :stacking "fg"
+           :reserve (struts :distance "30px" :side "top")
+           :windowtype "dock"
+           :wm-ignore false
+ (centerbox :class "bar"
+ 	(left2)
+ 	(middle2)
+ 	(right2)))
+ 	
+; /** Greeting **/ ;
+(defvar launching "Done your dalies?")
+(defpoll greeting :interval "10m" "/home/jizzy/.config/eww/scripts/greeting")
+(defwindow launcher
+           :monitor 0
+           :geometry (geometry :x "0"
+                               :y "52.5"
+                               :width "360px"
+                               :height "175px"
+                               :anchor "top center")
+           :stacking "fg"
+           :windowtype "desktop"
+           :wm-ignore true
+ (eventbox :onhoverlost "eww close launcher"
+ 	(box :orientation "v"
+ 		(label :text greeting :class "greeting")
+ 		(quicklaunch)
+ 		(label :text launching :class "launching"))))
+
+(defwidget quicklaunch []
+	(box :space-evenly true
+	(eventbox	:onclick "/home/jizzy/.config/eww/scripts/genshin.sh & /home/jizzy/.config/eww/scripts/launching.sh"
+	 	(image :path "/home/jizzy/Applications/icons/genshin.png"
+	 		   :image-width 75
+	 		   :tooltip "Launch Genshin Impact"))
+	(eventbox	:onclick "/home/jizzy/Applications/honkers-railway-launcher --just-run-game & /home/jizzy/.config/eww/scripts/launching.sh"
+		(image :path "/home/jizzy/Applications/icons/hsr.png"
+			   :image-width 75
+			   :tooltip "Launch Honkai Star Rail"))
+	(eventbox	:onclick "/home/jizzy/Applications/sleepy-launcher --just-run-game & /home/jizzy/.config/eww/scripts/launching.sh"
+		(image :path "/home/jizzy/Applications/icons/zzz.png"
+			   :image-width 75
+			   :tooltip "Launch Zenless Zone Zero"))))
+
+
+; /** Left2 **/ ;
+(defpoll weather :interval "60s" "/home/jizzy/.config/eww/scripts/owm.sh")
+(defpoll uptime :interval "60s" "uptime --pretty | sed 's/up //' | sed 's/,//'")
+(defpoll aptupdates :interval "10m" "/home/jizzy/.config/eww/scripts/aptupdates.sh")
+(defwidget left2 []
+	(box :space-evenly false 
+		(label :text "${weather}F" :class "weather")))
+		
+; /** Mid2 **/ ;
+(defwidget middle2 []
+	(eventbox :onclick "eww open launcher" "hi"))
+	
+; /** Right2 **/ ;
+(defwidget right2 []
+	(box :space-evenly false :halign "end"
+		(eventbox :onclick "kitty sudo apt upgrade"
+			(label :text aptupdates))
+		(seperator)
+		(eventbox :onclick "eww open wifi"
+			(label :text wifiicon))
+		(label :text uptime :class "uptime")))
+
+
+
+
+
+
+; /** Buttons **/ ;
+(defwindow wifi
+           :monitor 0
+           :geometry (geometry :x "-25"
+                               :y "52.5"
+                               :width "260px"
+                               :height "140px"
+                               :anchor "top right")
+           :stacking "fg"
+           :windowtype "desktop"
+           :wm-ignore true
+           (wifipop))
+
+(defvar wifiicon "󰤮")
+(defvar wifiname "N/A")
+(defvar connection "Disconnected")
+(defvar localip "000.000.0.00")
+(defvar ipv4 "000.00.000.000")
+(defvar wifiup "0.0 B/s")
+(defvar wifidown "0.0 B/s")
+
+(defwidget wifipop []
+    (eventbox :onhoverlost "eww close wifi" :class "w_pop"
+        (box :orientation "v" :space-evenly false :valign "center" :spacing "3"
+            (box :orientation "h" :space-evenly false :class "w_b1" :halign "center" :spacing "25"
+                (box :class "w_icon"
+                    (label :text wifiicon :class "w_ico")
+                )
+                (box :orientation "v" :class "w_det"
+                    (label :text wifiname :class "w_net")
+                    (label :text connection :class "w_con")
+                    (label :text localip :class "w_ip")
+                )
+            )
+            (box :orientation "h" :class "w_spd" :space-evenly false :halign "center" :spacing "30" 
+                (box :space-evenly false :class "w_up" :halign "center" :spacing "7"
+                    (label :text "󰕒" :class "w_upi")
+                    (label :text "${round(EWW_NET.eno2.NET_UP / 1048576, 2)}MB/s" :class "w_ups") 
+                )
+                (box :space-evenly false :class "w_dl" :halign "center" :spacing "7"
+                    (label :text "󰇚" :class "w_dli")
+                    (label :text "${round(EWW_NET.eno2.NET_DOWN / 1048576, 2)}MB/s" :class "w_dls")
+                )
+            )
+			(button	:onclick "kitty nmtui & eww close wifi" :class "nmtui" 
+					(label :text "Open nmtui")
+			)
+        )
+    )
+)

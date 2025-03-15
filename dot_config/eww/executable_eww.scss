@@ -1,0 +1,109 @@
+* {
+  all: unset;
+  font-family: SF Pro Rounded;
+  font-weight: bold;
+}
+
+.bar {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 9px;
+    color: rgba(228, 228, 228, 1.0);
+}
+
+.placeholder {
+	background-color: white;
+	color: black;
+}
+
+/* Launcher */
+.launcher {
+	background-color: rgba(10, 10, 15, 1);
+	border-radius: 13px;
+	border-width: 2px;
+	border-style: outset;
+	border-color: #fc4d4f;
+}
+
+.greeting {
+	font-size: 28px;
+}
+
+.launching {
+	font-size: 16px;
+}
+
+.left {
+    font-size: 13px;
+}
+
+.seperator {
+    font-size: 14px;
+    padding: 0 5 0 5;
+    color: rgb(80, 80, 85);
+}
+
+.debtext {
+    font-size: 14px;
+}
+
+.player {
+    color: rgba(140, 160, 255, 0.8);
+}
+
+.title {
+}
+
+.time {
+    padding: 0 8 0 7;
+}
+
+.cpu {
+	padding: 0 5 0 8;
+}
+
+.gpu, .mem {
+    padding: 0 5 0 0;
+}
+
+.cpuavg, .gpuavg {
+    color: rgba(169, 169, 169, 0.8);
+    font-size: 10px;
+}
+
+
+
+.dashboard {
+	font-size: 144px;
+	color: rgba(255, 255, 255, 0.75);
+	background-color: rgba(15, 20, 45, 0.75);
+}
+
+
+.cpuslider, .gpuslider, .memslider scale trough highlight {
+    all: unset;
+    border-radius: 16px;
+}
+
+scale trough {
+    background-color: #FFFFFF;
+    min-width: 2px;
+}
+
+/** wifi **/
+.w_pop {
+	background-color: white;
+	color: black;
+}
+/* main icon */
+.w_ico {
+	font-size: 50px;
+}
+
+.w_upi, .w_dli {
+	font-size: 25px;
+}
+
+.b_t {
+	background-color: black;
+	color: white;
+}

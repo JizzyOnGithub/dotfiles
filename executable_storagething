@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Function to calculate space cleaned
+calculate_space_cleaned() {
+    local before=$1
+    local after=$2
+    local cleaned=$((before - after))
+    if [ $cleaned -ge 1048576 ]; then
+        echo "$(echo "scale=2; $cleaned/1048576" | bc) GB"
+    else
+        echo "$(echo "scale=2; $cleaned/1024" | bc) MB"
+    fi
+}
+
+# Get initial disk usage
+initial_usage=$(df -k / | awk 'NR==2 {print $3}')
+
+# Clean apt cache
+sudo apt-get clean
+
+# Clear trash
+read -p "Would you like to clear the trash? [Y/n]: " clear_trash
+if [[ $clear_trash =~ ^[Yy]$ || $clear_trash == "" ]]; then
+    find ~/.local/share/Trash -maxdepth 2 | sed 's/.trashinfo//g'
+    read -p "You sure? [Y/n]: " confirm_trash
+    if [[ $confirm_trash =~ ^[Yy]$ || $confirm_trash == "" ]]; then
+        sudo rm -rf ~/.local/share/Trash/*
+    fi
+fi
+
+# Clear temp files
+read -p "And what about the temp files? [Y/n]: " clear_temp
+if [[ $clear_temp =~ ^[Yy]$ || $clear_temp == "" ]]; then
+    sudo rm -rf /tmp/*
+fi
+
+# Clear cache folder
+read -p "Your cache folder? (This'll make your shit load really slow, only say yes if its been a while.)[Y/n]: " clear_cache
+if [[ $clear_cache =~ ^[Yy]$ || $clear_cache == "" ]]; then
+    rm -rf ~/.cache/*
+fi
+
+# Clear logs
+read -p "What about the logs? [Y/n]: " clear_logs
+if [[ $clear_logs =~ ^[Yy]$ || $clear_logs == "" ]]; then
+    sudo rm -rf /var/log/*
+fi
+
+# Get final disk usage
+final_usage=$(df -k / | awk 'NR==2 {print $3}')
+
+# Calculate and display space cleaned
+space_cleaned=$(calculate_space_cleaned $initial_usage $final_usage)
+echo \n "All done! I cleaned $space_cleaned for you! ^^"
+
+exit

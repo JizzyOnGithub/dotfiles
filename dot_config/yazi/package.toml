@@ -1,0 +1,37 @@
+[[plugin.deps]]
+use = "TD-Sky/sudo"
+rev = "a8287ea"
+hash = "7ea284003bb28ad4f6c9080f52e8be9e"
+
+[[plugin.deps]]
+use = "boydaihungst/mediainfo"
+rev = "f565c5a"
+hash = "15d0dbb4e9ba84eb1f2dbb8e9e249bf6"
+
+[[plugin.deps]]
+use = "stelcodes/bunny"
+rev = "49bd059"
+hash = "2adf8bfe95004e63da0201dc0c2f365"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "beb586a"
+hash = "f28138c2e11e87962b66d583fef724c3"
+
+[[plugin.deps]]
+use = "pirafrank/what-size"
+rev = "b23e3a4"
+hash = "98e5f5af3efd3ba8bc2db0720187cc83"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "beb586a"
+hash = "ae9e1d0c6bfd68cdebc98cc684c22b45"
+
+[[plugin.deps]]
+use = "DreamMaoMao/clipboard"
+rev = "93b73d4"
+hash = "3af52f1d5ba79a7dd9cbc1d2918feab5"
+
+[flavor]
+deps = []

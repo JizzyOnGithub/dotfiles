@@ -1,0 +1,9 @@
+{
+    "matchbracestyle": "highlight",
+    "mkparents": true,
+    "savecursor": true,
+    "saveundo": true,
+    "scrollbar": true,
+    "scrollbarchar": "\u003c",
+    "softwrap": true
+}

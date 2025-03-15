@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+alias "nya?"="sudo apt update && sudo apt upgrade"
+alias "has?"="apt search"
+alias "goaway"="sudo apt remove"
+alias "hav?"="apt list --installed 2>/dev/null | grep -i"
+
+alias "autostart"="micro ~/.config/openbox/autostart"
+alias "ewwyuck"="micro /home/jizzy/.config/eww/eww.yuck"
+alias "ewwscss"="micro /home/jizzy/.config/eww/eww.scss"
+
+alias gimme="git clone"
+alias come="git pull"
+
+cutvid() {
+ # Start playing the video in an endless loop
+  mpv --no-config --vo=kitty --vo-kitty-use-shm=yes bratdance.mp4 &
+  video_pid=$!
+
+  # Run ffmpeg process
+  ffmpeg -i "$1" -preset veryfast -ss "$2" "$3" > /dev/null 2>&1
+  ffmpeg_status=$?
+
+  # Kill the audio and video players
+  kill $video_pid > /dev/null 2>&1
+
+  # Clear the screen
+  clear
+
+  if [ $ffmpeg_status -eq 0 ]; then
+    echo "Done."
+  else
+    echo "Error occurred during video processing."
+  fi
+}
+
+alias roundc=ffmpeg -i "$1" -update true -frames:v 1 -filter_complex "format=yuva420p,geq=lum='p(X,Y)':a='if(gt(abs(W/2-X),W/2-"$2")*gt(abs(H/2-Y),H/2-"$2"),if(lte(hypot("$2"-(W/2-abs(W/2-X)),"$2"-(H/2-abs(H/2-Y))),"$2"),255,0),255)'" $3
+
+
+
+# Network stuff
+alias "network-name"="nmcli -t -f name connection show --active | head -n 1"
+alias "network-ip"="hostname -I | awk '{print $1}'"
+alias "cdcd"="cd /media/jizzy/cunnydrive"
