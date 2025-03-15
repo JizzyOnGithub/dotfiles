@@ -52,6 +52,12 @@ mkdir ~/Pictures
 mkdir ~/Videos
 mkdir ~/Applications
 mkdir ~/.config
+
+LATEST_CHEZ=$(curl -s "https://api.github.com/repos/twpayne/chezmoi/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
+wget "https://github.com/twpayne/chezmoi/releases/download/v${LATEST_CHEZ}/chezmoi_${LATEST_CHEZ}_linux_amd64.deb"
+sudo apt install -y ./chezmoi_${LATEST_CHEZ}_linux_amd64.deb
+rm chezmoi_${LATEST_CHEZ}_linux_amd64.deb
+
 echo '
 -------------------
 Finished essentials
@@ -573,9 +579,6 @@ clear
 # eww install
 if [[ $eww == "y" || $eww == "Y" ]]; then
 
-echo "Do you want to copy my base config to ur system? (y/n):"
-read ewwconfig
-
 echo '
 --------------
 Installing eww
@@ -590,14 +593,6 @@ cargo build --release --no-default-features --features x11
 cd target/release
 chmod +x ./eww
 sudo mv ./eww /usr/bin/eww
-
-if [[ $ewwconfig == "y" || $ewwconfig == "y" ]]; then
-sudo apt install -y cava
-cd ~/.config 
-wget -O eww.tar "https://files.catbox.moe/ny6i3w.tar"
-tar -xf eww.tar
-rm eww.tar
-fi
 
 echo '
 ------------
@@ -616,123 +611,6 @@ Installing picom
 ----------------
 '
 sudo apt install -y picom
-touch picom.conf
-chmod +x picom.conf 
-cat << 'EOF' > picom.conf
-# # # General Settings # # #
-backend = "glx";
-daemon = false;
-dbus = false;
-dithered-present = false;
-vsync = true;
-detect-rounded-corners = false;
-detect-client-opacity = true;
-use-ewmh-active-win = true;
-unredir-if-possible = false;
-unredir-if-possible-delay = 0;
-
-#!!
-detect-transient = true;
-detect-client-leader = false;
-transparent-clipping = false;
-
-use-damage = true;
-xrender-sync-fence = false;
-no-ewmh-fullscreen = false;
-max-brightness = 0.7;
-
-# # # Shadow Settings # # #
-shadow = true;
-shadow-radius = 12;
-shadow-opacity = .8;
-shadow-offset-x = -7;
-shadow-offset-y = -7;
-shadow-color = "#000000";
-crop-shadow-to-monitor = true;
-
-
-# # # Corners Settings # # #
-corner-radius = 20;
-
-# # # Blur Settings # # #
-blur:
-{
-  method = "gaussian";
-  size = 3;
-  deviation = 5.0;
-};
-
-# # # Per-Window Settings # # #
-rules: ({
-  match = "window_type = 'tooltip'";
-  shadow = true;
-  full-shadow = false;
-  corner-radius = 0;
-  transparent-clipping = false;
-  animations = ({
-  	triggers = ["open"];
-  	scale = 0.95;
-  	preset = "slide-in";
-  	duration = 0.15;
-  }, {
-  	triggers = ["close", "hide"];
-  	scale = 0.1;
-  	preset = "disappear";
-  	duration = 0.15;
-  });
-}, {
-  match = "window_type = 'dock'    || "
-          "window_type = 'desktop' || "
-          "name *?= 'rofi' || "
-          "_GTK_FRAME_EXTENTS@";
-  blur-size = 24;
-  transparent-clipping = false;
-    corner-radius = 0;
-}, {
-  match = "window_type = 'desktop'";
-  corner-radius = 0;
-  blur-background = false;
-  shadow = false;
-},
-{ match = "fullscreen"; corner-radius = 0; },
- {
-  match = "name = 'Notification' || "
-  		  "name *?= 'dunst' || "
-          "_GTK_FRAME_EXTENTS@";
-  shadow = false;
-  corner-radius = 0;
-  animations = ({
-  	triggers = ["open"];
-  	scale = 0.95;
-  	preset = "slide-in";
-  	duration = 0.33;
-  	direction = "right";
-  }, {
-    	triggers = ["close", "hide"];
-    	scale = 0.1;
-    	preset = "slide-out";
-    	duration = 0.33;
-    	direction = "right";
-    });
-})
-
-# # # Animation Settings # # #
-animations = ({
-	triggers = ["open"];
-	scale = 0.95;
-	preset = "appear";
-	duration = 0.33;
-}, {
-	triggers = ["close", "hide"];
-	scale = 0.95;
-	preset = "disappear";
-	duration = 0.33;
-}, {
-	triggers = ["geometry"];
-	preset = "geometry-change";
-	duration = 0.50;
-})
-EOF
 echo '
 --------------
 finished picom
@@ -980,150 +858,7 @@ clear
 fi
 
 
-echo -e "Doing some finishing touches...\n"
+echo -e "use chezmoi to get ur dotfiles!!!\n"
 sleep 1
-touch .ufetch.sh
-chmod +x .ufetch.sh
 
-cat << 'EOF' > .ufetch.sh
-#!/bin/sh
-#
-# ufetch-debian - tiny system info for debian
-
-## INFO
-
-# user is already defined
-host="$(hostname)"
-os="Debian $(cat /etc/debian_version)"
-kernel="$(uname -sr | sed 's/Linux //')"
-gpu="$(lspci | grep -i vga | grep -o '\[GeForce.*\]' | tr -d '[]' | cut -d' ' -f2-3)"
-packages="$(dpkg -l | grep -c ^i)"
-cpu="$(lscpu | grep "Model name" | sed 's/.*Intel(R) Core(TM) i\([0-9]\)-\([0-9]\+\)K.*/Intel i\1 \2K/' | xargs)"
-
-## UI DETECTION
-
-parse_rcs() {
-	for f in "${@}"; do
-		wm="$(tail -n 1 "${f}" 2> /dev/null | cut -d ' ' -f 2)"
-		[ -n "${wm}" ] && echo "${wm}" && return
-	done
-}
-
-rcwm="$(parse_rcs "${HOME}/.xinitrc" "${HOME}/.xsession")"
-
-ui='unknown'
-uitype='UI'
-if [ -n "${DE}" ]; then
-	ui="${DE}"
-	uitype='DE'
-elif [ -n "${WM}" ]; then
-	ui="${WM}"
-	uitype='WM'
-elif [ -n "${XDG_CURRENT_DESKTOP}" ]; then
-	ui="${XDG_CURRENT_DESKTOP}"
-	uitype='WM'
-elif [ -n "${DESKTOP_SESSION}" ]; then
-	ui="${DESKTOP_SESSION}"
-	uitype='WM'
-elif [ -n "${rcwm}" ]; then
-	ui="${rcwm}"
-	uitype='WM'
-elif [ -n "${XDG_SESSION_TYPE}" ]; then
-	ui="${XDG_SESSION_TYPE}"
-fi
-
-ui="$(basename "${ui}")"
-
-## DEFINE COLORS
-
-# probably don't change these
-if [ -x "$(command -v tput)" ]; then
-	bold="$(tput bold 2> /dev/null)"
-	black="$(tput setaf 0 2> /dev/null)"
-	red="$(tput setaf 1 2> /dev/null)"
-	green="$(tput setaf 2 2> /dev/null)"
-	yellow="$(tput setaf 3 2> /dev/null)"
-	blue="$(tput setaf 4 2> /dev/null)"
-	magenta="$(tput setaf 5 2> /dev/null)"
-	cyan="$(tput setaf 6 2> /dev/null)"
-	white="$(tput setaf 7 2> /dev/null)"
-	reset="$(tput sgr0 2> /dev/null)"
-fi
-
-# you can change these
-lc="${reset}${bold}${red}"          # labels
-nc="${reset}${bold}${red}"          # user and hostname
-ic="${reset}"                       # info
-c0="${reset}${red}"                 # first color
-
-## OUTPUT
-
-#cat << 'EOF' >>
-
-#${c0}     ,---._   ${lc}${USER}${ic}@${lc}${host}${reset}
-#${c0}   /\`  __  \\  ${lc}OS:        ${ic}${os}${reset}
-#${c0}  |   /    |  ${lc}KRNL:      ${ic}${kernel}${reset}
-#${c0}  |   ${c1}\`.__.\`  ${lc}GPU:       ${ic}${gpu}${reset}
-#${c0}   \          ${lc}CPU:       ${ic}${cpu}${reset}
-#${c0}    \`-,_      ${lc}PKGS:      ${ic}${packages}${reset}
-#${c0}              ${lc}${uitype}:        ${ic}${ui}${reset}
-
-#EOF
-
-EOF
-
-rm .zshrc
-touch .zshrc
-chmod +x .zshrc	
-
-cat << 'EOF' > .zshrc
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-export ZSH="$HOME/.oh-my-zsh"
-PROMPT="%F{white}╭─%f%B%F{red}%n%f%b @ %B%F{white}%d%f%k%b%B%F{red}
-%F{white}╰──➤%f "
-
-export PATH=/$HOME/.local/bin:/$HOME/.atuin/bin:/$HOME/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-
-source $ZSH/oh-my-zsh.sh
-. "$HOME/.atuin/bin/env"
-. "$HOME/.cargo/env"
-
-plugins=(git sudo)
-eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
-
-alias apt="sudo nala"
-alias ls="eza --icons=auto --group-directories-first --hyperlink"
-alias nya="sudo nala update && sudo nala upgrade"
-
-~/.ufetch.sh
-EOF
-
-cat << 'EOF' > .startup.sh
-#!/bin/bash
-# xrandr --output HDMI1 --mode 1920x1080 --right-of HDMI-0 &
-# sleep 0.5
-# feh --bg-tile .wallpaper.png &
-# picom &
-# sleep 0.1
-# easyeffects --gapplication-service &
-# sleep 0.1
-/usr/libexec/polkit-mate-authentication-agent-1 &
-# sleep 0.1
-# dunst &
-# sleep 0.1
-# redshift &
-# sleep 0.1
-# otd-daemon &
-# sleep 0.1 
-# flameshot &
-# sleep 0.1
-# steam -silent &
-# sudo apt update & ## You need to add apt to sudoers like so:
-## jizzy 	ALL=(ALL) NOPASSWD: /usr/bin/apt update
-# Also add 
-## jizzy   ALL=(ALL) NOPASSWD: /sbin/reboot
-## jizzy 	ALL=(ALL) NOPASSWD: /usr/bin/apt list --upgradable 2>/dev/null
-EOF
-
-echo -e "\nFinished nyaa!!"
+echo -e "\nFinished nyaa!"
