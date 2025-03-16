@@ -10,7 +10,7 @@ logfile="$HOME/.dkrc.log"
 
 # load xbind for keybinds
 xbindkeys &
-/home/jizzy/startup.sh &
+/home/jizzy/.startup.sh &
 
 # spawn a scratchpad terminal if not already (see sxhkdrc and rules for binds/setup)
 # pgrep -f "st -c scratchpad" || st -c scratchpad &

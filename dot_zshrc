@@ -110,9 +110,8 @@ export PATH=/home/jizzy/.local/bin:/home/jizzy/.atuin/bin:/home/jizzy/.cargo/bin
 eval "$(atuin init zsh)"
 eval "$(zoxide init zsh)"
 
-alias apt='sudo nala'
-alias ls='eza --icons=auto --group-directories-first --hyperlink'
-alias nya="sudo apt update && sudo apt upgrade && mpv Music/nya.mp3"
+alias ls='lsd'
+alias nya="sudo apt update && sudo apt upgrade"
 alias cmd="command"
 
 ~/.ufetch.sh
