@@ -1,0 +1,32 @@
+* {
+  all: unset;
+  font-family: DepartureMono Nerd Font Mono;
+  font-weight: bold;
+}
+
+.leftbar {
+    padding: 10 0;
+    background-color: rgb(4, 8, 22); // #0A0D0E;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: rgba(228, 228, 228, 1.0);
+}
+
+
+
+.weathericon, .aptBox {
+  font-size: 18px;
+}
+
+.seperator {
+    font-size: 14px;
+    padding: 0 5 0 5;
+    color: rgb(80, 80, 85);
+}
+
+scale trough { // highlight
+    background-color: #FFFFFF;
+    min-width: 2px;
+}
+
+

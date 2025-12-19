@@ -1,0 +1,22 @@
+;(defpoll gpu :interval "1s" "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{print $1}'")
+;(defpoll gputemp :interval "3s" "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader")
+;(defpoll cputemp :interval "3s" "sensors | grep 'Core 0' | awk '{print $3}' | tr -d '+°C' | cut -d. -f1")
+
+; /** Left **/ ;
+;(defwidget left []
+;    (box :space-evenly false :class "left"
+;        (box :space-evenly false 
+;            (label :text "CPU" :class "cpu")
+;            (label :text "${EWW_TEMPS.CORETEMP_CORE_0}°C")
+;            (label :text "${round(EWW_CPU.avg, 0)}%" :class "cpuavg" :yalign "0.25"))
+;        (seperator)
+;        (box :space-evenly false
+;            (box :space-evenly false 
+;                (label :text "GPU" :class "gpu")
+;                (label :text "${gputemp}°C")
+;                (label :text "${gpu}%" :class "gpuavg" :yalign "0.25"))
+;        (seperator)
+;        (box :space-evenly false
+;            (box :space-evenly false 
+;                (label :text "MEM" :class "mem")
+;                (label :text "${round(EWW_RAM.used_mem / 1073741824, 1)}/32GB"))))))

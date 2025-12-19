@@ -1,0 +1,30 @@
+"playerctl play-pause"
+ XF86AudioPlay
+# Next 
+"playerctl next"
+ XF86AudioNext
+# Previous
+"playerctl previous"
+ XF86AudioPrev
+
+# Take a screenshot
+"flameshot gui"
+ Mod4 + s
+
+# Raise / Lower / Mute
+"/home/jizzy/scripts/volume.sh up"
+ XF86AudioRaiseVolume
+"/home/jizzy/scripts/volume.sh down"
+  XF86AudioLowerVolume
+"~/scripts/mute.sh"
+  XF86AudioMute
+
+## Power stuff
+
+"systemctl poweroff"
+ Control + Mod4 + End
+
+"sudo reboot"
+ Control + Mod4 + Delete 
+
+cargo install ripdrag

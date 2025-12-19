@@ -1,0 +1,42 @@
+-- No example configuration was found for this plugin.
+--
+-- For detailed information on configuring this plugin, please refer to its
+-- official documentation:--   https://github.com/shellRaining/hlchunk.nvim
+--
+--
+-- If you wish to use this plugin, you can optionally modify and then uncomment
+-- the configuration below.
+
+return {
+  "shellRaining/hlchunk.nvim",
+  event = { "BufReadPre", "BufNewFile" },
+  config = function()
+  require('hlchunk').setup({
+  chunk = {
+    enable = true,
+    chars = {
+      vertical_line = "󰁆",
+      left_top = "",
+      left_bottom = "",
+      right_arrow = " 󰦺",
+      left_arrow = " 󰦸",
+      horizontal_line = "󰁕",
+    } 
+  },
+  indent = {
+    enable = true,
+    chars = {"󰁕"},
+    style = {
+      { fg = "#434437" },
+      { fg = "#2f4440" },
+      { fg = "#433054" },
+      { fg = "#284251" },
+    },
+  },
+  blank = {
+    enable = true,
+    chars = {""},
+  },
+})  
+  end
+}

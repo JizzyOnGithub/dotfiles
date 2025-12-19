@@ -1,0 +1,67 @@
+(defwindow leftbar
+           :monitor 0
+           :geometry (geometry :x "20"
+                               :y "540"
+                               :height "100%"
+                               :width "40px"
+                               :anchor "left c")
+           :stacking "fg"
+           :reserve (struts :distance "30px" :side "left")
+           :windowtype "dock"
+           :wm-ignore false
+  (centerbox :orientation "vertical"
+    (top)
+    (middle)
+    (bottom)
+  )
+)
+
+
+; ▄▀▄▀█▓▒░ Variables ░▒▓█▀▄▀▄ ;
+(defpoll timeHr :interval "1s" "date +'%H'")
+(defpoll timeMin :interval "1s" "date +'%M'")
+(defpoll timeSec :interval "1s" "date +'%S'")
+(defpoll weathericon :interval "60m" "/home/jizzy/.config/eww/scripts/owm.sh --icon")
+(defpoll weathertemp :interval "60m" "/home/jizzy/.config/eww/scripts/owm.sh --temp")
+; (defpoll uphr :interval "60s" "uptime --pretty | grep -oP '\\d+(?= hour)' || echo '0'")
+; (defpoll upmin :interval "60s" "uptime --pretty | grep -oP '\\d+(?= minute)'")
+; (defpoll aptupdates :interval "120m" "/home/jizzy/.config/eww/scripts/aptupdates.sh")
+(defwidget seperator []
+    (label :text "" :class "seperator"))
+
+; ▄▀▄▀█▓▒░ Top ░▒▓█▀▄▀▄ ;
+(defwidget top []
+  (box :space-evenly false :orientation "Vertical"
+    (systray :orientation "vertical" :space-evenly true)
+  )
+)
+
+;(defwidget top []
+;	(box :space-evenly false :orientation "vertical" :class "uptime"
+;  (box :space-evenly false :orientation "vertical" :halign "center"
+;    (label :text uphr :class "upHr")
+;    (label :text "ʜʀ" :class "upHrTxt"))
+;  (box :space-evenly false :orientation "vertical" :halign "center"
+;    (label :text upmin :class "upMin")
+;    (label :text "ᴍɴ" :class "upMinTxt"))))
+
+; ▄▀▄▀█▓▒░ middle ░▒▓█▀▄▀▄ ;
+(defwidget middle []
+  (box)
+)
+
+; ▄▀▄▀█▓▒░ Bottom ░▒▓█▀▄▀▄ ;
+(defwidget bottom []
+  (box :space-evenly false :orientation "vertical" :halign "center" :valign "end"
+    (label :text weathericon :class "weathericon" :xalign "0.5")
+    (label :text weathertemp :class "weathertemp" :xalign "0.5") 
+    (box :space-evenly false :class "time" :orientation "vertical"
+      (label :text timeHr)
+      (label :text timeMin)
+      (label :text timeSec)
+    )
+  )
+)
+
+
+

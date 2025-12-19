@@ -1,0 +1,110 @@
+# Fonts
+# font_family		 Menlo
+# bold_font		 Menlo-Italic
+# italic_font		 Menlo-Bold
+# bold_italic_font Menlo-BoldItalic
+
+font_size 14.0
+
+# Cursor
+cursor_shape 	 beam
+cursor_beam_thickness	2.5
+cursor_stop_blinking_after 0
+
+# Scrollback
+scrollback_indicator_opacity 1.0
+scrollback_pager_history_size 100
+
+# Mouse
+mouse_hide_wait 	0
+url_style 		dashed
+detect_urls 	yes
+show_hyperlink_targets 	yes
+underline_hyperlinks 	always
+copy_on_select 	no
+paste_actions 	no-op
+
+# Performance Tuning
+sync_to_monitor yes
+
+# Bell 
+enable_audio_bell yes
+bell_on_tab "🔔 "
+
+# Window Layout
+remember_window_size no
+initial_window_width  1000
+initial_window_height 515
+window_border_width 0.2pt
+draw_minimal_borders yes
+window_padding_width 10 25 0 25
+
+# Color Schemes
+dynamic_background_opacity yes
+
+
+
+# Quickly Modify-able
+command_on_bell none
+bell_path /home/jizzy/.config/kitty/nyaom.wav
+window_logo_path /home/jizzy/.config/kitty/logos/logo1.png
+window_logo_position bottom-right
+window_logo_alpha 1
+window_logo_scale 20
+background_opacity 0.65
+background_blur 0
+background_image none
+background_image_layout tiled
+
+url_color #4A9CFF
+foreground #FFFFFF
+background #000000
+selection_foreground #FFFFFF
+selection_background #f94c4e
+
+# Specific Colors (Dark > Bright)
+# Black
+color0 #808080
+color8 #808080
+
+# Red 
+color1 #6B3F50
+color9 #6B3F50
+
+# Green 
+color2 #173B3F
+color10 #173B3F
+
+# Yellow
+color3 #A2624A
+color11 #A2624A
+
+# Blue
+color4 #4A588B
+color12 #4A588B
+
+# Magenta
+color5 #7A1A28
+color13 #7A1A28
+
+# Cyan
+color6 #2A5E66
+color14 #2A5E66
+
+# White
+color7 #EAF2FF
+color15 #EAF2FF
+
+# BEGIN_KITTY_FONTS
+font_family      family="OCRA"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+# END_KITTY_FONTS
+
+map ctrl+alt+up resize_window taller
+map ctrl+alt+down resize_window shorter
+map ctrl+alt+left resize_window wider
+
+
+
